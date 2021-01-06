@@ -1,27 +1,31 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <Header/>
-
-      
-    </div>
-    <router-view/>
-    <Footer/>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import Header from './components/Header'
-import Footer from './components/Footer'
-
 export default {
-  name: 'App',
-  components: {
-    Header,
-    Footer
+  // Name of the Component
+  name: "App",
+  // data property has a function that returns an object with app data
+  data: function() {
+    return {
+      todos: [],
+      baseUrl: "http://localhost:3000/todos"
+    };
+  },
+  // methods is an object of functions
+  methods: {
+    getTodos: async function() {
+      const response = await fetch(this.baseUrl);
+      const data = await response.json();
+      this.todos = data;
+    }
+  },
+  // create runs after components is initially created, one of many lifecycle functions
+  created: function() {
+    this.getTodos();
   }
-  
-}
+};
 </script>
 
 <style>
