@@ -2,6 +2,13 @@
   <div>
     <h1>The Vue To Do App</h1>
     <hr />
+    <h1>Add a To Do</h1>
+    <form v-on:submit.prevent="createTodo">
+      <input type="text" v-model="createTitle" />
+      <input type="text" v-model="createBody" />
+      <input type="submit" />
+    </form>
+    <hr />
     <h3>To Dos</h3>
     <ul>
       <li v-for="todo of todos" v-bind:key="todo.id">
@@ -21,7 +28,9 @@ export default {
   data: function() {
     return {
       todos: [],
-      baseUrl: "http://localhost:3000/todos"
+      baseUrl: "http://localhost:3000/todos",
+      createTitle: "",
+      createBody: ""
     };
   },
   // methods is an object of functions
@@ -30,6 +39,19 @@ export default {
       const response = await fetch(this.baseUrl);
       const data = await response.json();
       this.todos = data;
+    },
+    createTodo: async function() {
+      await fetch(this.baseUrl, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: this.createTitle,
+          body: this.createBody
+        })
+      });
+      (this.createTitle = ""), (this.createBody = ""), this.getTodos();
     }
   },
   // create runs after components is initially created, one of many lifecycle functions
