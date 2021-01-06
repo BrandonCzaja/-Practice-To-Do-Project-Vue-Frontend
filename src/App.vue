@@ -1,5 +1,16 @@
 <template>
-  <div></div>
+  <div>
+    <h1>The Vue To Do App</h1>
+    <hr />
+    <h3>To Dos</h3>
+    <ul>
+      <li v-for="todo of todos" v-bind:key="todo.id">
+        **********************
+        <h4>{{todo.title}}</h4>
+        <h5>{{todo.body}}</h5>**********************
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
